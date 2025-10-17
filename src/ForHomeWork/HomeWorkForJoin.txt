@@ -1,0 +1,55 @@
+--1
+SELECT DISTINCT City FROM Customers;
+--2
+SELECT EmployeeID, FirstName, LastName, BirthDate
+FROM Employees WHERE EXTRACT(YEAR FROM BirthDate) BETWEEN 1950 AND 1960;
+--3
+SELECT SupplierName, Country FROM Suppliers WHERE Country = 'France';
+--4
+SELECT CustomerName, Address, Country FROM Customers WHERE Country not 'Spain'
+  AND CustomerName LIKE 'A%';
+--5
+SELECT CustomerName, City, PostalCode FROM Customers WHERE PostalCode IS NULL;
+--6
+SELECT * FROM Customers WHERE City = 'London' LIMIT 2;
+--7
+SELECT FirstName, LastName, BirthDate FROM Employees WHERE LENGTH(LastName) = 4;
+--8
+SELECT Country, COUNT(SupplierID) AS SupplierCount FROM Suppliers GROUP BY Country;
+--9
+SELECT Country, COUNT(SupplierID) AS SupplierCount
+FROM Suppliers GROUP BY Country HAVING COUNT(SupplierID) = 1 ORDER BY Country;
+--10
+SELECT c.CategoryName, SUM(p.Price) AS TotalPrice
+FROM Products p JOIN Categories c ON p.CategoryID = c.CategoryID GROUP BY c.CategoryName;
+--11
+SELECT c.CategoryName, p.ProductName, MIN(p.Price) AS MinPrice
+FROM Products p
+JOIN Categories c ON p.CategoryID = c.CategoryID
+WHERE c.CategoryID IN (6, 8)
+GROUP BY c.CategoryName, p.ProductName
+ORDER BY MinPrice;
+--12
+SELECT p.ProductName, s.SupplierName
+FROM Products p
+JOIN Suppliers s ON p.SupplierID = s.SupplierID
+ORDER BY s.SupplierName, p.ProductName;
+
+--13
+SELECT s.SupplierName, COUNT(p.ProductID) AS ProductCount
+FROM Suppliers s
+JOIN Products p ON s.SupplierID = p.SupplierID
+GROUP BY s.SupplierName
+ORDER BY ProductCount DESC;
+--14
+SELECT c.CustomerName, e.FirstName || ' ' || e.LastName AS EmployeeName, sh.ShipperName
+FROM Orders o
+JOIN Customers c ON o.CustomerID = c.CustomerID
+JOIN Employees e ON o.EmployeeID = e.EmployeeID
+JOIN Shippers sh ON o.ShipperID = sh.ShipperID;
+--15
+SELECT e.FirstName || ' ' || e.LastName AS EmployeeName, COUNT(DISTINCT o.CustomerID) AS CustomerCount
+FROM Employees e
+JOIN Orders o ON e.EmployeeID = o.EmployeeID
+GROUP BY e.EmployeeID, e.FirstName, e.LastName
+ORDER BY CustomerCount DESC;
