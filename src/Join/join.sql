@@ -89,12 +89,64 @@ VALUES ('Central Library', 1, 1),
     select l.name, a.full_name, a.gender from Library l join Book B on l.book_id = B.id join Author A on B.id = A.book_id
     where a.gender = 'male';
 -- 3. Подсчитать количество книг в каждой библиотеке
+    select l.name as library_name, count(book_id) as book_count from Library l
+    join book b on l.book_id = book_id group by l.name;
 -- 4. Получить библиотеки вместе с названиями книг
+    select l.name as library_name, b.book_name from Library l
+    join Book b on l.book_id = b.id;
 -- 5. Получить библиотеки и полные имена читателей
+    select l.name as library_name, r.full_name as reader_name from Library l
+    join Reader r on l.reader_id = r.id;
 -- 6. Получить количество книг в каждой библиотеке
+select l.name as library_name, count(book_id) as book_count from Library l
+   join book b on l.book_id = book_id group by l.name;
 -- 7. Вывести библиотеки, в которых книга сейчас "забронирована" (is_booked = true)
+    select distinct  l.name from Library l
+    join Book b on l.book_id = b.id where b.is_booked = true;
 -- 8. Вывести библиотеки, где читатель — женщина
+    select distinct l.name from Library l
+    join Reader r on l.reader_id = r.id
+    where   r.gender = 'Female';
 -- 9.Получить библиотеку и автора её книги
+select distinct l.name as library_name, a.full_name as author_name from Library l
+    join Book b on l.book_id = b.id
+    join Author a on b.id = a.book_id;
 -- 10.Вывести библиотеки, у которых книги стоят больше 1000
+select distinct l.name from Library l
+join Book b on l.book_id = b.id
+where b.price > 1000;
+
+-- Reader
+-- 1.Получить всех читателей
+    select * from Reader;
+-- 2.Читатели и библиотеки, где они зарегистрированы:
+    
+-- 3.Читатели и названия книг, которые они читают
+-- 4.Получить читателей и книги, которые они читают
+-- 5.Читатели и авторы прочитанных книг
+-- 6.Вывести читателей, читающих определённый жанр
+-- 7.Получить всех читателей, читающих книги, изданные после 2010
+-- 8.Найти читателей, у которых книги написаны женщинами
+
+-- Book
+-- 1.Получить все книги
+-- 2.Книги и библиотеки, где они находятся
+-- 3.Получить книги и авторы
+-- 4.Получить книги и читатели
+-- 5.Книги, изданные после 2010 года
+-- 6.Книги с определенным жанром
+-- 7.Книги, которые забронированы
+-- 8.Количество книг по жанрам
+-- 9.Книга и библиотека, отсортированные по цене
 
 
+-- Author
+-- 1.Все авторы
+-- 2.Авторы и их книги
+-- 3.Авторы и библиотеки
+-- 4.Авторы и читатели
+-- 5.Авторы без книг
+-- 6.Авторы, у которых книги не забронированы
+-- 7.Авторы, написавшие книги в жанре "Programming"
+-- 8.Отсортировать авторов по алфавиту
+-- 9.Книга и библиотека, отсортированные по цене
